@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const path = require('path')
 const merge = require('webpack-merge')
 const HTMLPlugin = require('html-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const isDev = process.env.NODE_ENV === 'development'
 
 function resolve (dir) {
@@ -15,15 +16,42 @@ const commonConfig = {
     app: resolve('src/main.js')
   },
   output: {
-    filename: '[name].[hash:8].js',
     path: resolve('output'),
+    filename: '[name].[hash:8].js',
+    chunkFilename: '[id].[chunkhash:8].js'
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         use: {
-          loader: 'babel-loader'
+          loader: 'babel-loader',
+          options: {
+            "presets": [
+              [
+                "@babel/preset-env",
+                {
+                  "targets": {
+                    "chrome": "67"
+                  },
+                  "useBuiltIns": "usage",
+                  "corejs": 2,
+                }
+              ]
+            ],
+            "plugins": [
+              "@babel/plugin-syntax-dynamic-import",
+              [
+                "@babel/plugin-transform-runtime",
+                {
+                  "corejs": 2,
+                  "helpers": true,
+                  "regenerator": true,
+                  "useESModules": false
+                }
+              ]
+            ]
+          },
         },
         exclude: file => /node_modules/.test(file),
         include: file => /src/.test(file)
@@ -34,12 +62,8 @@ const commonConfig = {
     new webpack.HotModuleReplacementPlugin(),
     new HTMLPlugin({
       template: resolve('index.html'),
-      minify: {
-        minifyCSS: true,
-        minifyJS: true
-      },
-      chunksSortMode: 'none'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ]
 }
 
@@ -58,6 +82,9 @@ const devConfig = {
     hot: true,
     open: true,
     useLocalIp: true
+  },
+  optimization: {
+    usedExports: true
   }
 }
 

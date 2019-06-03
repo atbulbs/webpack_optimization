@@ -1,19 +1,45 @@
 {
   "name": "webpack_optimization",
   "version": "1.0.0",
+  "author": "Jason Liao<atbulbs@gmail.com>",
   "description": "webpack_optimization",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --progress --config build/webpack.config.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.js",
+    "build:dev": "cross-env NODE_ENV=development webpack --config build/webpack.config.js",
+    "build:prod": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
     "start": "npm run dev",
     "build": "npm run clean && npm run build:prod",
-    "build:prod": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
+    "build-dev": "npm run clean && npm run build:dev",
+    "profile": "webpack --profile --json > stats.json",
     "clean": "rimraf output"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.4.5",
+    "@babel/runtime-corejs2": "^7.4.5",
+    "phaser": "^3.17.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^5.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "rimraf": "^2.6.3",
+    "webpack": "^4.32.2",
+    "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1",
+    "webpack-merge": "^4.2.1"
   },
   "sideEffects": [
     "@babel/polly-fill",
     "*.css"
-    ],
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/atbulbs/webpack_optimization.git"
@@ -22,21 +48,9 @@
     "webpack",
     "optimization"
   ],
-  "author": "JasonLiao",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/atbulbs/webpack_optimization/issues"
   },
-  "homepage": "https://github.com/atbulbs/webpack_optimization#readme",
-  "devDependencies": {
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "babel": "^6.23.0",
-    "babel-loader": "^8.0.6",
-    "cross-env": "^5.2.0",
-    "rimraf": "^2.6.3",
-    "webpack": "^4.32.2",
-    "webpack-cli": "^3.3.2",
-    "webpack-dev-server": "^3.4.1",
-    "webpack-merge": "^4.2.1"
-  }
+  "homepage": "https://github.com/atbulbs/webpack_optimization#readme"
 }
